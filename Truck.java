@@ -1,14 +1,14 @@
-public class Truck extends Vehicle {
+public class Truck extends Vehicle implements Rentable {
     private int rentalCostPerDay = 100;
     private boolean available = false;
 
     @Override
-    public int calculateRentalCost(int days) {
+    public double calculateRentalCost(int days) {
         return days * rentalCostPerDay;
     }
 
     @Override
-    public boolean isAvailable() {
+    public boolean isAvailableForRental() {
         return available;
     }
 
@@ -26,51 +26,49 @@ public class Truck extends Vehicle {
     }
 
     // Getter and Setter for available
-    public boolean getisAvailable() {
+    public boolean isAvailable() {
         return available;
     }
 
     public void setAvailable(boolean available) {
         this.available = available;
     }
-       
+
     @Override
     public void rent(Customer customer, int days) {
         if (available) {
             available = false;
-            System.out.println("Motorcycle rented to " + customer.getName() + " for " + days + " days.");
+            System.out.println("Truck rented to " + customer.getName() + " for " + days + " days.");
         } else {
-            System.out.println("Motorcycle is not available.");
+            System.out.println("Truck is not available.");
         }
     }
 
     @Override
-    public void returnVehicle(){
+    public void returnVehicle() {
         available = true;
-        System.out.println("Motorcycle returned.");
+        System.out.println("Truck returned.");
     }
-    
-    @Overloading
+
+    // Overloaded method
     public void rent(Customer customer, int days, boolean insurance) {
         if (available) {
             available = false;
-            System.out.println("Motorcycle rented to " + customer.getName() + " for " + days + " days.");
+            System.out.println("Truck rented to " + customer.getName() + " for " + days + " days.");
             if (insurance) {
                 System.out.println("Insurance purchased.");
             }
         } else {
-            System.out.println("Motorcycle is not available.");
+            System.out.println("Truck is not available.");
         }
     }
 
-    @Overloading
-    public void returnVehicle(boolean insurance){
+    // Overloaded method
+    public void returnVehicle(boolean insurance) {
         available = true;
-        System.out.println("Motorcycle returned.");
+        System.out.println("Truck returned.");
         if (insurance) {
-            System.out.println("Insurance returned.");
+            System.out.println("Insurance processed.");
         }
     }
-
-
 }

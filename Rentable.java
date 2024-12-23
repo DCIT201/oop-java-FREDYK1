@@ -1,4 +1,4 @@
-class interface Rentable{
-    public void rent(Customer customer , int days);
-    public void returnVehicle();
+public interface Rentable {
+    void rent(Customer customer, int days);
+    void returnVehicle();
 }

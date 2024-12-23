@@ -1,14 +1,14 @@
-public class Motorcycle extends Vehicle, Rentable {
+public class Motorcycle extends Vehicle implements Rentable {
     private int rentalCostPerDay = 30;
     private boolean available = true;
 
     @Override
-    public int calculateRentalCost(int days) {
+    public double calculateRentalCost(int days) {
         return days * rentalCostPerDay;
     }
 
     @Override
-    public boolean isAvailable() {
+    public boolean isAvailableForRental() {
         return available;
     }
 
@@ -32,25 +32,25 @@ public class Motorcycle extends Vehicle, Rentable {
 
     public void setAvailable(boolean available) {
         this.available = available;
-    }
+        }
 
-    @Override
-    public void rent(Customer customer, int days) {
+        @Override
+        public void rent(Customer customer, int days) {
         if (available) {
             available = false;
             System.out.println("Motorcycle rented to " + customer.getName() + " for " + days + " days.");
         } else {
             System.out.println("Motorcycle is not available.");
         }
-    }
+        }
 
-    @Override
-    public void returnVehicle(){
+        @Override
+        public void returnVehicle() {
         available = true;
         System.out.println("Motorcycle returned.");
     }
 
-    @Overloading
+    
     public void rent(Customer customer, int days, boolean insurance) {
         if (available) {
             available = false;
@@ -63,7 +63,7 @@ public class Motorcycle extends Vehicle, Rentable {
         }
     }
 
-    @Overloading
+
     public void returnVehicle(boolean insurance){
         available = true;
         System.out.println("Motorcycle returned.");

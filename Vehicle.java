@@ -1,4 +1,4 @@
 public abstract class Vehicle {
-    public abstract int calculateRentalCost(int days);
-    public abstract boolean isAvailable();
-}
+    public abstract double calculateRentalCost(int days);
+    public abstract boolean isAvailableForRental();
+    }

@@ -1,14 +1,14 @@
-public class Car extends Vehicle {
+public class Car extends Vehicle implements Rentable {
     private int rentalCostPerDay = 50;
     private boolean available = true;
 
     @Override
-    public int calculateRentalCost(int days) {
+    public double calculateRentalCost(int days) {
         return days * rentalCostPerDay;
     }
 
     @Override
-    public boolean isAvailable() {
+    public boolean isAvailableForRental() {
         return available;
     }
 
@@ -26,7 +26,7 @@ public class Car extends Vehicle {
     }
 
     // Getter and Setter for available
-    public boolean getisAvailable() {
+    public boolean isAvailable() {
         return available;
     }
 
@@ -34,7 +34,7 @@ public class Car extends Vehicle {
         this.available = available;
     }
 
-     @Override
+    @Override
     public void rent(Customer customer, int days) {
         if (available) {
             available = false;
@@ -50,26 +50,25 @@ public class Car extends Vehicle {
         System.out.println("Car returned.");
     }
 
-    @Overloading
+    // Overloaded method
     public void rent(Customer customer, int days, boolean insurance) {
         if (available) {
             available = false;
-            System.out.println("Motorcycle rented to " + customer.getName() + " for " + days + " days.");
+            System.out.println("Car rented to " + customer.getName() + " for " + days + " days.");
             if (insurance) {
                 System.out.println("Insurance purchased.");
             }
         } else {
-            System.out.println("Motorcycle is not available.");
+            System.out.println("Car is not available.");
         }
     }
 
-    @Overloading
-    public void returnVehicle(boolean insurance){
+    // Overloaded method
+    public void returnVehicle(boolean insurance) {
         available = true;
-        System.out.println("Motorcycle returned.");
+        System.out.println("Car returned.");
         if (insurance) {
-            System.out.println("Insurance returned.");
+            System.out.println("Insurance processed.");
         }
     }
-
 }
