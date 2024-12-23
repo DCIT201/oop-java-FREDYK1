@@ -1,43 +1,22 @@
 public class Car extends Vehicle implements Rentable {
-    private int rentalCostPerDay = 50;
-    private boolean available = true;
+    public Car(String vehicleId, String model, double baseRentalRate, boolean isAvailable) {
+        super(vehicleId, model, baseRentalRate, isAvailable);
+    }
 
     @Override
     public double calculateRentalCost(int days) {
-        return days * rentalCostPerDay;
+        return days * getBaseRentalRate();
     }
 
     @Override
     public boolean isAvailableForRental() {
-        return available;
-    }
-
-    // Getter and Setter for rentalCostPerDay
-    public int getRentalCostPerDay() {
-        return rentalCostPerDay;
-    }
-
-    public void setRentalCostPerDay(int rentalCostPerDay) {
-        if (rentalCostPerDay > 0) {
-            this.rentalCostPerDay = rentalCostPerDay;
-        } else {
-            throw new IllegalArgumentException("Rental cost per day must be positive.");
-        }
-    }
-
-    // Getter and Setter for available
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
+        return isAvailable();
     }
 
     @Override
     public void rent(Customer customer, int days) {
-        if (available) {
-            available = false;
+        if (isAvailable()) {
+            setAvailable(false);
             System.out.println("Car rented to " + customer.getName() + " for " + days + " days.");
         } else {
             System.out.println("Car is not available.");
@@ -46,14 +25,14 @@ public class Car extends Vehicle implements Rentable {
 
     @Override
     public void returnVehicle() {
-        available = true;
+        setAvailable(true);
         System.out.println("Car returned.");
     }
 
     // Overloaded method
     public void rent(Customer customer, int days, boolean insurance) {
-        if (available) {
-            available = false;
+        if (isAvailable()) {
+            setAvailable(false);
             System.out.println("Car rented to " + customer.getName() + " for " + days + " days.");
             if (insurance) {
                 System.out.println("Insurance purchased.");
@@ -65,7 +44,7 @@ public class Car extends Vehicle implements Rentable {
 
     // Overloaded method
     public void returnVehicle(boolean insurance) {
-        available = true;
+        setAvailable(true);
         System.out.println("Car returned.");
         if (insurance) {
             System.out.println("Insurance processed.");
