@@ -1,49 +1,50 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Customer {
-    private String name;
-    private String driverLicenseNumber;
-    private List<RentalTransaction> rentalHistory = new ArrayList<>();
-    private List<Rentable> currentRentals = new ArrayList<>();
+public final class Customer implements LoyaltyProgram {
+    private final String name;
+    private final String driverLicenseNumber;
+    private final List<RentalTransaction> rentalHistory;
+    private final List<Rentable> currentRentals;
+    private int loyaltyPoints;
+    private double rating;
 
-    public Customer(String name, String driverLicenseNumber) {
+    private Customer(String name, String driverLicenseNumber) {
         this.name = name;
         this.driverLicenseNumber = driverLicenseNumber;
+        this.rentalHistory = new ArrayList<>();
+        this.currentRentals = new ArrayList<>();
     }
 
-    // Getter and Setter for name
+    // Static factory method
+    public static Customer createCustomer(String name, String driverLicenseNumber) {
+        return new Customer(name, driverLicenseNumber);
+    }
+
+    // Getters
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // Getter and Setter for driverLicenseNumber
     public String getDriverLicenseNumber() {
         return driverLicenseNumber;
     }
 
-    public void setDriverLicenseNumber(String driverLicenseNumber) {
-        this.driverLicenseNumber = driverLicenseNumber;
+    public List<RentalTransaction> getRentalHistory() {
+        return Collections.unmodifiableList(rentalHistory);
+    }
+
+    public List<Rentable> getCurrentRentals() {
+        return Collections.unmodifiableList(currentRentals);
     }
 
     // Manage rental history
-    public List<RentalTransaction> getRentalHistory() {
-        return rentalHistory;
-    }
-
     public void addRentalTransaction(RentalTransaction transaction) {
         rentalHistory.add(transaction);
     }
 
     // Track current rentals
-    public List<Rentable> getCurrentRentals() {
-        return currentRentals;
-    }
-
     public void addCurrentRental(Rentable rental) {
         currentRentals.add(rental);
     }
@@ -54,7 +55,37 @@ public class Customer {
 
     // Implement rental eligibility checks
     public boolean isEligibleForRental() {
-        // Example eligibility check: customer can rent up to 3 vehicles at a time
         return currentRentals.size() < 3;
+    }
+
+    // LoyaltyProgram implementation
+    @Override
+    public void addPoints(int points) {
+        loyaltyPoints += points;
+    }
+
+    @Override
+    public int getPoints() {
+        return loyaltyPoints;
+    }
+
+    @Override
+    public void redeemPoints(int points) throws InsufficientPointsException {
+        if (points > loyaltyPoints) {
+            throw new InsufficientPointsException("Not enough loyalty points.");
+        }
+        loyaltyPoints -= points;
+    }
+
+    // Rating system
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        if (rating < 0 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 0 and 5.");
+        }
+        this.rating = rating;
     }
 }

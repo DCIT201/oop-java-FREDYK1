@@ -3,8 +3,8 @@ import java.util.List;
 import java.util.Date;
 
 public class RentalAgency {
-    private List<Rentable> vehicles = new ArrayList<>();
-    private List<RentalTransaction> transactions = new ArrayList<>();
+    private final List<Rentable> vehicles = new ArrayList<>();
+    private final List<RentalTransaction> transactions = new ArrayList<>();
 
     // Add a vehicle to the agency
     public void addVehicle(Rentable vehicle) {
@@ -12,16 +12,19 @@ public class RentalAgency {
     }
 
     // Rent a vehicle
-    public void rentVehicle(Customer customer, Rentable vehicle, int days, boolean insurance) {
-        if (vehicle.isAvailableForRental() && customer.isEligibleForRental()) {
-            vehicle.rent(customer, days);
-            RentalTransaction transaction = new RentalTransaction(customer, vehicle, new Date(), days, insurance);
-            transactions.add(transaction);
-            customer.addRentalTransaction(transaction);
-            customer.addCurrentRental(vehicle);
-        } else {
-            System.out.println("Vehicle is not available for rental or customer is not eligible.");
+    public void rentVehicle(Customer customer, Rentable vehicle, int days, boolean insurance) throws VehicleNotAvailableException, CustomerNotEligibleException {
+        if (!vehicle.isAvailableForRental()) {
+            throw new VehicleNotAvailableException("Vehicle is not available for rental.");
         }
+        if (!customer.isEligibleForRental()) {
+            throw new CustomerNotEligibleException("Customer is not eligible for rental.");
+        }
+        vehicle.rent(customer, days);
+        RentalTransaction transaction = new RentalTransaction(customer, vehicle, new Date(), days, insurance);
+        transactions.add(transaction);
+        customer.addRentalTransaction(transaction);
+        customer.addCurrentRental(vehicle);
+        customer.addPoints(days * 10); // Add loyalty points
     }
 
     // Return a vehicle
