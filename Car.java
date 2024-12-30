@@ -29,25 +29,8 @@ public class Car extends Vehicle implements Rentable {
         System.out.println("Car returned.");
     }
 
-    // Overloaded method
-    public void rent(Customer customer, int days, boolean insurance) {
-        if (isAvailable()) {
-            setAvailable(false);
-            System.out.println("Car rented to " + customer.getName() + " for " + days + " days.");
-            if (insurance) {
-                System.out.println("Insurance purchased.");
-            }
-        } else {
-            System.out.println("Car is not available.");
-        }
-    }
-
-    // Overloaded method
-    public void returnVehicle(boolean insurance) {
-        setAvailable(true);
-        System.out.println("Car returned.");
-        if (insurance) {
-            System.out.println("Insurance processed.");
-        }
+    @Override
+    public String getModel() {
+        return getModel();
     }
 }
